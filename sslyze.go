@@ -43,16 +43,17 @@ type CertInfo struct {
 	Argument    string      `xml:"argument,attr"`
 	Title       string      `xml:"title,attr"`
 	Certificate Certificate `xml:"certificate"`
+	Exception   string      `xml:"exception,attr"`
 }
 
 // Certificate contains the target certificate
 type Certificate struct {
-	MatchingHostName        string        `xml:"hasMatchingHostname,attr"`
-	ExtendedValidation      string        `xml:"isExtendedValidation,attr"`
-	TrustedByMozillaCAStore string        `xml:"isTrustedByMozillaCAStore,attr"`
+	MatchingHostName        bool          `xml:"hasMatchingHostname,attr"`
+	ExtendedValidation      bool          `xml:"isExtendedValidation,attr"`
+	TrustedByMozillaCAStore bool          `xml:"isTrustedByMozillaCAStore,attr"`
 	SHA1Fingerprint         string        `xml:"sha1Finderprint,attr"`
 	SubjectPublicKeyInfo    PublicKeyInfo `xml:"subjectPublicKeyInfo"`
-	Version                 string        `xml:"version"`
+	Version                 int           `xml:"version"`
 	Extensions              []Extension   `xml:"extensions"`
 	SignatureValue          string        `xml:"signatureValue"`
 	SignatureAlgorithm      string        `xml:"signatureAlgorithm"`
@@ -66,13 +67,13 @@ type Certificate struct {
 type PublicKeyInfo struct {
 	PublicKey          PublicKey `xml:"publicKey"`
 	PublicKeyAlgorithm string    `xml:"publicKeyAlgorithm"`
-	PublicKeySize      string    `xml:"publicKeySize"`
+	PublicKeySize      int       `xml:"publicKeySize"`
 }
 
 // PublicKey contains the target public key
 type PublicKey struct {
 	Modulus  string `xml:"modulus"`
-	Exponent string `xml:"exponent"`
+	Exponent int    `xml:"exponent"`
 }
 
 // Extension contains the target's certificate extensions
@@ -150,13 +151,15 @@ type Issuer struct {
 
 // Compression contains the target's support for compression
 type Compression struct {
-	Supported string `xml:"isSupported,attr"`
+	Supported bool   `xml:"isSupported,attr"`
+	Exception string `xml:"exception,attr"`
 }
 
 // ReNeg contains target's support for Session Renegotiation
 type ReNeg struct {
-	ClientInitiated string `xml:"canBeClientInitiated,attr"`
-	Secure          string `xml:"isSecure,attr"`
+	ClientInitiated bool   `xml:"canBeClientInitiated,attr"`
+	Secure          bool   `xml:"isSecure,attr"`
+	Exception       string `xml:"exception,attr"`
 }
 
 // ReSum contains the target's support for session resume
